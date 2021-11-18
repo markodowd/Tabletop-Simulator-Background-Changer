@@ -23,11 +23,11 @@ function createTextboxes()
     for index, data in ipairs(entries) do
 
         -- Sets up input reference function
-        inputNumber = spawnedInputCount
-        inputFuncName = "input" .. index
-        inputFunc = function(obj, player_clicker_color, input_value, selected,
-                             index, inputNumber)
-            input_function(obj, player_clicker_color, value, selected, index,
+        local inputNumber = spawnedInputCount
+        local inputFuncName = "input" .. index
+        local inputFunc = function(obj, player_clicker_color, input_value,
+                                   selected)
+            input_function(obj, player_clicker_color, input_value, selected,
                            inputNumber)
         end
         self.setVar(inputFuncName, inputFunc)
@@ -47,12 +47,10 @@ function createTextboxes()
         spawnedInputCount = spawnedInputCount + 1
 
         -- Sets up input reference function
-        buttonNumber = spawnedButtonCount
-        buttonFuncName = "button" .. index
-        buttonFunc = function(obj, player_clicker_color, alt_click, index,
-                              buttonNumber)
-            button_function(obj, player_clicker_color, alt_click, index,
-                            buttonNumber)
+        local buttonNumber = spawnedButtonCount
+        local buttonFuncName = "button" .. index
+        local buttonFunc = function(obj, player_clicker_color, alt_click)
+            button_function(obj, player_clicker_color, alt_click, buttonNumber)
         end
         self.setVar(buttonFuncName, buttonFunc)
 
@@ -71,14 +69,7 @@ function createTextboxes()
     end
 end
 
-function button_function(obj, player_clicker_color, alt_click, index,
-                         buttonNumber)
-    print(obj)
-    print(player_clicker_color)
-    print(alt_click)
-    print(index)
-    print(buttonNumber)
-
+function button_function(obj, player_clicker_color, alt_click, buttonNumber)
     if (player_clicker_color == 'Black') then
         -- Do nothing with empty fields
         if (backgroundURL_0 == '') then return end
@@ -102,7 +93,7 @@ function button_function(obj, player_clicker_color, alt_click, index,
     end
 end
 
-function input_function(obj, player_clicker_color, input_value, selected, index,
+function input_function(obj, player_clicker_color, input_value, selected,
                         inputNumber)
     if not selected then
         if (inputNumber == 0) then backgroundURL_0 = value end
@@ -110,5 +101,3 @@ function input_function(obj, player_clicker_color, input_value, selected, index,
         if (inputNumber == 2) then backgroundURL_2 = value end
     end
 end
-
-function click_none() print(backgroundURL) end
