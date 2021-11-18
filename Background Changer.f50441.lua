@@ -72,9 +72,8 @@ end
 function button_function(obj, player_clicker_color, alt_click, buttonNumber)
     if (player_clicker_color == 'Black') then
         -- Do nothing with empty fields
-        if (backgroundURL_0 == '') then return end
-        if (backgroundURL_1 == '') then return end
-        if (backgroundURL_2 == '') then return end
+        if (backgroundURL_0 == '' and backgroundURL_1 == '' and backgroundURL_2 ==
+            '') then return end
 
         if (buttonNumber == 0) then
             Backgrounds.setCustomURL(backgroundURL_0)
@@ -96,8 +95,8 @@ end
 function input_function(obj, player_clicker_color, input_value, selected,
                         inputNumber)
     if not selected then
-        if (inputNumber == 0) then backgroundURL_0 = value end
-        if (inputNumber == 1) then backgroundURL_1 = value end
-        if (inputNumber == 2) then backgroundURL_2 = value end
+        if (inputNumber == 0) then backgroundURL_0 = input_value end
+        if (inputNumber == 1) then backgroundURL_1 = input_value end
+        if (inputNumber == 2) then backgroundURL_2 = input_value end
     end
 end
