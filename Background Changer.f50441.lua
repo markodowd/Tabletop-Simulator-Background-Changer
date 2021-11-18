@@ -12,19 +12,23 @@ entries = {
 function onload(saved_data)
     spawnedInputCount = 0
     spawnedButtonCount = 0
+
     createTextboxes()
 end
 
 function createTextboxes()
+    fontSize = 48
+    rows = 3
+
     for index, data in ipairs(entries) do
-        local fontSize = 48
-        local rows = 3
 
         -- Sets up input reference function
-        local inputNumber = spawnedInputCount
-        local inputFuncName = "input" .. index
-        local inputFunc = function(_, _, value, selected)
-            input_function(index, inputNumber, value, selected)
+        inputNumber = spawnedInputCount
+        inputFuncName = "input" .. index
+        inputFunc = function(obj, player_clicker_color, input_value, selected,
+                             index, inputNumber)
+            input_function(obj, player_clicker_color, value, selected, index,
+                           inputNumber)
         end
         self.setVar(inputFuncName, inputFunc)
 
@@ -42,9 +46,19 @@ function createTextboxes()
 
         spawnedInputCount = spawnedInputCount + 1
 
+        -- Sets up input reference function
+        buttonNumber = spawnedButtonCount
+        buttonFuncName = "button" .. index
+        buttonFunc = function(obj, player_clicker_color, alt_click, index,
+                              buttonNumber)
+            button_function(obj, player_clicker_color, alt_click, index,
+                            buttonNumber)
+        end
+        self.setVar(buttonFuncName, buttonFunc)
+
         self.createButton({
             label = "Change",
-            click_function = "change_background",
+            click_function = buttonFuncName,
             function_owner = self,
             position = entries[index].buttonPos,
             width = 600,
@@ -57,33 +71,39 @@ function createTextboxes()
     end
 end
 
-function change_background(obj, player_clicker_color, alt_click)
-    print(backgroundURL_0)
-    print(backgroundURL_1)
-    print(backgroundURL_2)
+function button_function(obj, player_clicker_color, alt_click, index,
+                         buttonNumber)
+    print(obj)
+    print(player_clicker_color)
+    print(alt_click)
+    print(index)
+    print(buttonNumber)
 
     if (player_clicker_color == 'Black') then
-        if (backgroundURL == '') then return end
+        -- Do nothing with empty fields
+        if (backgroundURL_0 == '') then return end
+        if (backgroundURL_1 == '') then return end
+        if (backgroundURL_2 == '') then return end
 
-        Backgrounds.setCustomURL(backgroundURL_1)
-        -- end
-        -- if (buttonIndex == 1) then
-        -- Backgrounds.setCustomURL(backgroundURL_1)
-        -- end
-        -- if (buttonIndex == 2) then
-        -- Backgrounds.setCustomURL(backgroundURL_1)
-        -- end
+        if (buttonNumber == 0) then
+            Backgrounds.setCustomURL(backgroundURL_0)
+        end
+
+        if (buttonNumber == 1) then
+            Backgrounds.setCustomURL(backgroundURL_1)
+        end
+
+        if (buttonNumber == 2) then
+            Backgrounds.setCustomURL(backgroundURL_2)
+        end
+
     else
-        broadcastToAll("Only the DM (Black) can change the background")
+        broadcastToAll("Only the DM (Black) can make the change")
     end
 end
 
-function input_function(index, inputNumber, value, selected)
-    print(index)
-    print(inputNumber)
-    print(value)
-    print(selected)
-
+function input_function(obj, player_clicker_color, input_value, selected, index,
+                        inputNumber)
     if not selected then
         if (inputNumber == 0) then backgroundURL_0 = value end
         if (inputNumber == 1) then backgroundURL_1 = value end
